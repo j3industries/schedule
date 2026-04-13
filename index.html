@@ -546,19 +546,16 @@ function logN(msg) {
 }
 
 function notify(subj, body) {
-  // Send via EmailJS to Verizon email-to-SMS gateway
   emailjs.send('j3industries', 'x2vhx59', {
     subject: subj,
     message: body,
-    to_email: '7134692810@vtext.com'
+    name: 'J3 Industries',
+    email: 'jamesmhinton@gmail.com',
+    time: new Date().toLocaleTimeString()
   }).then(function() {
     logN('SMS sent: ' + subj);
   }, function(err) {
-    logN('SMS error: ' + JSON.stringify(err));
-    // Fallback: open mailto
-    var url = 'mailto:7134692810@vtext.com?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body);
-    var a = document.createElement('a'); a.href=url; a.style.display='none';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    logN('SMS error: ' + (err.text || JSON.stringify(err)));
   });
 }
 
